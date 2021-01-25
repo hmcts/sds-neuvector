@@ -1,12 +1,3 @@
-parameters:
-  timeoutInMinutes: ''
-  agentPool: ''
-  connectedServiceName: ''
-  keyVaultName: ''
-  secretsFilter: ''
-  terraformVersion: ''
-
-
 jobs:
   - job: Validate
     timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
