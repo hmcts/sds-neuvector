@@ -4,6 +4,7 @@ parameters:
   connectedServiceName: ''
   keyVaultName: ''
   secretsFilter: ''
+  terraformVersion: ''
 
 
 jobs:
