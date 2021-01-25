@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 organization="hmcts"
-project="CNP"
+project="PlatformOperations"
+
 
 echo "This is build $thisbuild"
 IFS=$'\n'
@@ -9,7 +10,7 @@ JSON_DATA=($(curl -s -u :"$azuredevopstoken" --request GET "https://dev.azure.co
 buildnumber=(${JSON_DATA//[!0-9]/})
 
 
-if [ $thisbuild -eq $buildnumber ] 
+if [ $thisbuild -eq $buildnumber ]
 then
 
 echo "No other builds are in Progress"
