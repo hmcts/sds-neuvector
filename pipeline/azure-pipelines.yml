@@ -27,3 +27,6 @@ stages:
           timeoutInMinutes: ${{ variables.timeoutInMinutes}}
           terraformVersion: ${{ variables.terraformVersion}}
           connectedServiceName: ${{ variables.connectedServiceName }}
+          keyVaultName: ${{ variables.keyVaultName }}
+          secretsFilter: ${{ variables.secretsFilter }}
+          
