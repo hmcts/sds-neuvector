@@ -18,11 +18,11 @@ variables:
   connectedServiceName: DCD-CFT-Sandbox
   keyVaultName: infra-vault-sandbox
   secretsFilter: 'azure-devops-token'
-  
+
 stages:
   - stage: Precheck
     jobs:
-      - template: pipeline/templates/precheck/precheck.yaml
+      - template: templates/precheck/precheck.yaml
         parameters: 
           timeoutInMinutes: ${{ variables.timeoutInMinutes}}
           terraformVersion: ${{ variables.terraformVersion}}
