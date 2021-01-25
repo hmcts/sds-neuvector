@@ -7,14 +7,14 @@ trigger:
   batch: true
   branches:
     include:
-    - main
+    - master
 
 variables:
   terraformVersion: 0.14.4
   timeoutInMinutes: 60
   agentPool: 'ubuntu-18.04'
   build: $(Build.BuildNumber)
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   connectedServiceName: DCD-CFT-Sandbox
   keyVaultName: infra-vault-sandbox
   secretsFilter: 'azure-devops-token'
