@@ -47,7 +47,7 @@ steps:
     name: "CheckFileChanges"
     displayName: "CheckFileChanges"
     env:
-      files_list: 'components/${{ parameters.stack }} environments/${{ parameters.environment }}/${{ parameters.environment }}.tfvars environments/variable.tf'
+      files_list: 'infarstructure environments/${{ parameters.environment }}/${{ parameters.environment }}.tfvars environments/variable.tf'
     inputs:
       filePath: pipeline/scripts/file-check-changes.sh
 
@@ -57,7 +57,7 @@ steps:
     inputs:
       command: apply
       terraformVersion: ${{ parameters.tfversion }}
-      workingDirectory: $(System.DefaultWorkingDirectory)/components/${{ parameters.stack }}
+      workingDirectory: $(System.DefaultWorkingDirectory)/infarstructure
       environmentServiceName: ${{ parameters.serviceConnection }}
       commandOptions: '--auto-approve tfplan-${{ parameters.project }}-${{ parameters.environment }}-${{ parameters.stack }}'
 
@@ -65,7 +65,7 @@ steps:
     displayName: "Remove local tfstate"
     inputs:
       targetType: 'inline'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/components/${{ parameters.stack }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/infarstructure'
       script: |
         rm -f terraform.tfstate* && rm -rf .terraform/
 
