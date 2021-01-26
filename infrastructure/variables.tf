@@ -16,7 +16,7 @@ variable "location" {
 variable "key_vault" {
   description = "Name of the key vault used by neuvector"
   type = object({
-    name = string
+    name                = string
     resource_group_name = string
   })
 }
