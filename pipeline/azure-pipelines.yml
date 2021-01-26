@@ -58,7 +58,7 @@ stages:
           pool:
             vmImage: ${{ variables.agentPool }}
           steps:
-            - template: templates/terraform.yaml
+            - template: templates/terraform/terraform.yaml
               parameters:
                 environment: ${{ parameter.environment }}
                 location: ${{ parameters.location }}
