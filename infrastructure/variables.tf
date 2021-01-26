@@ -20,3 +20,5 @@ variable "key_vault" {
     resource_group_name = string
   })
 }
+
+variable "project" {}
