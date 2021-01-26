@@ -1,4 +1,3 @@
-env      = "sbox"
 product  = "neuvector"
 location = "uksouth"
 key_vault = {

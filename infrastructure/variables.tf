@@ -1,4 +1,4 @@
-variable "env" {
+variable "environment" {
   description = "Name of the environment to deploy infrastructure"
   type        = string
 }
