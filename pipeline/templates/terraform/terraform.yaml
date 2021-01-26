@@ -23,7 +23,7 @@ steps:
     inputs:
       command: init
       terraformVersion: ${{ parameters.tfversion }}
-      workingDirectory: '$(System.DefaultWorkingDirectory)/components/${{ parameters.stack }}'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
       backendType: azurerm
       backendServiceArm: ${{ parameters.serviceConnection }}
       backendAzureRmResourceGroupName: 'azure-control-${{ parameters.environment }}-rg'
@@ -38,7 +38,7 @@ steps:
     inputs:
       command: plan
       terraformVersion: ${{ parameters.tfversion }}
-      workingDirectory: $(System.DefaultWorkingDirectory)/components/${{ parameters.stack }}
+      workingDirectory: $(System.DefaultWorkingDirectory)/infrastructure
       environmentServiceName: ${{ parameters.serviceConnection }}
       commandOptions: '-out tfplan-${{ parameters.project }}-${{ parameters.environment }}-${{ parameters.stack }}  -var environment=${{ parameters.environment }} -var project=${{ parameters.project }} -var-file $(System.DefaultWorkingDirectory)/environments/${{ parameters.environment }}/${{ parameters.environment }}.tfvars -lock=false'
 
@@ -49,7 +49,7 @@ steps:
     env:
       files_list: 'components/${{ parameters.stack }} environments/${{ parameters.environment }}/${{ parameters.environment }}.tfvars environments/variable.tf'
     inputs:
-      filePath: pipeline-scripts/file-check-changes.sh
+      filePath: pipeline/scripts/file-check-changes.sh
 
   - task: TerraformCLI@0
     displayName: Apply-${{ parameters.stack }}
@@ -76,5 +76,5 @@ steps:
       scriptType: bash
       scriptLocation: scriptPath
       azureSubscription: ${{ parameters.serviceConnection }}
-      scriptPath: $(System.DefaultWorkingDirectory)/pipeline-scripts/unlock-tf-state.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/unlock-tf-state.sh
       arguments: ${{ parameters.location }} ${{ parameters.storage_account_name }}
