@@ -17,14 +17,16 @@ variables:
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   connectedServiceName: DCD-CFT-Sandbox
   keyVaultName: infra-vault-sandbox
-  secretsFilter: 'azure-devops-token'
+  secretsFilter: azure-devops-token
+  project: application
 
 parameters:
   - name: environments
     displayName: Environment to run
     type: object
     default:
-      - environment: 'sbox'
+      - deployment: 'neuvector'
+        environment: 'sbox'
         dependsOn: 'Precheck'    
 
   - name: location
@@ -61,6 +63,6 @@ stages:
                 environment: ${{ parameter.environment }}
                 location: ${{ parameters.location }}
                 stack: ${{ parameter.deployment }}
-                project: $(project)
-                tfversion: $(tfversion)
+                project: ${{ variables.project }}
+                tfversion: ${{ variables.terraformVersion}}
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
