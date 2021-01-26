@@ -22,3 +22,5 @@ variable "key_vault" {
 }
 
 variable "project" {}
+
+variable "activity_name" {}

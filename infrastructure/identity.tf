@@ -4,7 +4,7 @@ resource "azurerm_user_assigned_identity" "managed_identity" {
 
   name = "${var.product}-${var.environment}-mi"
 
-  tags = var.common_tags
+  tags = local.common_tags
 }
 
 resource "azurerm_key_vault_access_policy" "implicit_managed_identity_access_policy" {
