@@ -1,0 +1,2 @@
+product  = "neuvector"
+location = "uksouth"
