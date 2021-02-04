@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg" {
   tags     = local.common_tags
 }
 resource "azurerm_storage_account" "stg" {
-  name                     = "sdsneuvector${var.environment}"
+  name                     = "sds${var.product}${var.environment}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = var.location
   account_tier             = "Standard"
