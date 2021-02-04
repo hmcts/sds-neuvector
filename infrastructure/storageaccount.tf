@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "sds-neuvector-${var.environment}-rg"
+  name     = "sds-${var.product}-${var.environment}-rg"
   location = var.location
   tags     = local.common_tags
 }
