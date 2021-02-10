@@ -23,5 +23,5 @@ resource "azurerm_storage_share" "share" {
 resource "azurerm_key_vault_secret" "kvs" {
   name         = "storage-account-key"
   value        = azurerm_storage_account.stg.primary_access_key
-  key_vault_id = module.azurekeyvault.id
+  key_vault_id = module.azurekeyvault.key_vault_id
 }
