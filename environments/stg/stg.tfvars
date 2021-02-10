@@ -1,2 +1,2 @@
-product  = "neuvector"
 location = "uksouth"
+product  = "neuvector"
