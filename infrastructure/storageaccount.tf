@@ -13,8 +13,15 @@ resource "azurerm_storage_account" "stg" {
   tags = local.common_tags
 }
 
+resource "azurerm_storage_share" "share" {
+  name                 = "neuvector-data-00"
+  storage_account_name = azurerm_storage_account.stg.name
+  quota                = 1
+}
+
+
 resource "azurerm_key_vault_secret" "kvs" {
   name         = "storage-account-key"
   value        = azurerm_storage_account.stg.primary_access_key
-  key_vault_id = data.azurerm_key_vault.genesis-kv.id
+  key_vault_id = module.azurekeyvault.key_vault_id
 }
