@@ -14,7 +14,9 @@ resource "azurerm_storage_account" "stg" {
 }
 
 resource "azurerm_storage_share" "share" {
-  name                 = "neuvector-data-00"
+  count = 2
+
+  name                 = "neuvector-data-${format("%02s", count.index)}"
   storage_account_name = azurerm_storage_account.stg.name
   quota                = 1
 }
