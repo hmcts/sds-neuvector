@@ -1,2 +1,0 @@
-product  = "neuvector"
-location = "uksouth"
