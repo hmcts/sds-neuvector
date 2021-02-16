@@ -27,7 +27,16 @@ parameters:
     default:
       - deployment: 'neuvector'
         environment: 'stg'
-        dependsOn: 'Precheck'    
+        dependsOn: 'Precheck'
+      - deployment: 'neuvector'
+        environment: 'test'
+        dependsOn: 'Precheck'
+      - deployment: 'neuvector'
+        environment: 'ithc'
+        dependsOn: 'Precheck'
+      - deployment: 'neuvector'
+        environment: 'prod'
+        dependsOn: 'Precheck'
 
   - name: location
     displayName: Location
@@ -42,7 +51,7 @@ stages:
     jobs:
       - template: templates/precheck/precheck.yaml
         parameters:
-          agentPool: ${{ variables.agentPool }} 
+          agentPool: ${{ variables.agentPool }}
           timeoutInMinutes: ${{ variables.timeoutInMinutes}}
           terraformVersion: ${{ variables.terraformVersion}}
           connectedServiceName: ${{ variables.connectedServiceName }}
