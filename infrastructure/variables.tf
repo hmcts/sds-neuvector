@@ -1,7 +1,11 @@
 variable "environment" {}
 
-variable "product" {}
+variable "product" {
+  default = "neuvector"
+}
 
-variable "location" {}
+variable "location" {
+  default = "uksouth"
+}
 
 variable "activity_name" {}
