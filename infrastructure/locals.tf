@@ -30,5 +30,8 @@ locals {
     "costCentre"         = "ss-aks" // until we get a better one, this is the generic cft contingency one
     "environment"        = local.env_display_names[var.environment]
     "criticality"        = local.criticality[var.environment]
+    "builtFrom"          = "hmcts/sds-neuvector"
+    "businessArea"       = "Cross-Cutting"
+    "application"        = "core"
   }
 }
