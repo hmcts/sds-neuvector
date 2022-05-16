@@ -34,5 +34,5 @@ locals {
     "businessArea"       = "Cross-Cutting"
     "application"        = "core"
   }
-  storage_account_repl_type = var.environment == "stg" || var.environment == "ithc" ? "ZRS" : "LRS"
+  storage_account_repl_type = var.environment == "stg" || var.environment == "ithc" || var.environment == "prod" ? "ZRS" : "LRS"
 }
