@@ -17,7 +17,7 @@ resource "azurerm_storage_account" "stg" {
   account_tier             = "Standard"
   account_replication_type = local.storage_account_repl_type
 
-  tags     = module.ctags.common_tags
+  tags = module.ctags.common_tags
 }
 
 resource "azurerm_storage_share" "share" {
