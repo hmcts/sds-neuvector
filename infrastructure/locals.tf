@@ -16,7 +16,7 @@ locals {
     stg      = "Staging"
     prod     = "Production"
     ithc     = "ITHC"
-    test     = "Test"
+    test     = "Testing"
     perftest = "Test"
     dev      = "Development"
     demo     = "Demo"
