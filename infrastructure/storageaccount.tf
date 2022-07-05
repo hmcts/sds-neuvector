@@ -1,7 +1,14 @@
+module "ctags" {
+  source      = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
+  environment = var.environment
+  product     = var.product
+  builtFrom   = var.builtFrom
+}
+
 resource "azurerm_resource_group" "rg" {
   name     = "sds-${var.product}-${var.environment}-rg"
   location = var.location
-  tags     = local.common_tags
+  tags     = module.ctags.common_tags
 }
 resource "azurerm_storage_account" "stg" {
   name                     = "sds${var.product}${var.environment}"
@@ -10,7 +17,7 @@ resource "azurerm_storage_account" "stg" {
   account_tier             = "Standard"
   account_replication_type = local.storage_account_repl_type
 
-  tags = local.common_tags
+  tags = module.ctags.common_tags
 }
 
 resource "azurerm_storage_share" "share" {

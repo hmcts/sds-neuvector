@@ -9,3 +9,5 @@ variable "location" {
 }
 
 variable "activity_name" {}
+
+variable "builtFrom" {}
