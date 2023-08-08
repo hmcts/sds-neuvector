@@ -81,7 +81,7 @@ stages:
           pool:
             vmImage: ${{ variables.agentPool }}
           steps:
-            - template: templates/terraform/terraform.yaml
+            - template: steps/terraform.yaml@cnp-azuredevops-libraries
               parameters:
                 environment: ${{ parameter.environment }}
                 location: ${{ parameters.location }}
