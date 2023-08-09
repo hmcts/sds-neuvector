@@ -47,18 +47,23 @@ parameters:
       - deployment: 'neuvector'
         environment: 'stg'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'test'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'dev'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'ithc'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'prod'
         dependsOn: 'Precheck'
+        component: sds-neuvector
 
   - name: location
     displayName: Location
