@@ -107,5 +107,5 @@ stages:
                 overrideAction: ${{ parameters.overrideAction }}
                 component: ${{ variables.project }}
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
-                terraformInitSubscription: ${{ variables.terraformInitSubscription 
+                terraformInitSubscription: ${{ variables.terraformInitSubscription }} 
                 product: ${{ variables.product }}
