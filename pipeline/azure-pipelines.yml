@@ -32,6 +32,14 @@ variables:
   project: application
 
 parameters:
+  - name: overrideAction
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+      
   - name: environments
     displayName: Environment to run
     type: object
@@ -71,6 +79,7 @@ stages:
               keyvaultName: "infra-vault-nonprod"
               keyvaultSecret: "azure-devops-sp-token"
               serviceConnection: "DCD-CFT-Sandbox"
+              overrideAction: ${{ parameters.overrideAction }}
 
   - ${{ each parameter in parameters.environments }}:
     - stage: ${{ parameter.environment }}
@@ -84,8 +93,7 @@ stages:
             - template: steps/terraform.yaml@cnp-azuredevops-libraries
               parameters:
                 environment: ${{ parameter.environment }}
+                overrideAction: ${{ parameters.overrideAction }}
+                component: ${{ parameter.component }}
                 location: ${{ parameters.location }}
-                stack: ${{ parameter.deployment }}
-                project: ${{ variables.project }}
-                tfversion: ${{ variables.terraformVersion}}
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
