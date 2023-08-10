@@ -1,17 +1,17 @@
 module "ctags" {
   source      = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
-  environment = var.env
+  environment = var.environment
   product     = var.product
   builtFrom   = var.builtFrom
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "cft-${var.product}-${var.env}-rg"
+  name     = "sds-${var.product}-${var.environment}-rg"
   location = var.location
   tags     = module.ctags.common_tags
 }
 resource "azurerm_storage_account" "stg" {
-  name                     = "cft${var.product}${var.env}"
+  name                     = "sds${var.product}${var.environment}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = var.location
   account_tier             = "Standard"
