@@ -111,3 +111,19 @@ stages:
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
                 terraformInitSubscription: ${{ variables.terraformInitSubscription }} 
                 product: ${{ variables.product }}
+                ${{ if eq(parameter.environment, 'aat') }}:
+                  initCommandOptions: -backend-config=resource_group_name=azure-control-stg-rg
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-stg-rg
+                ${{ if eq(parameter.environment, 'perftest') }}:
+                  initCommandOptions: -backend-config=resource_group_name=azure-control-test-rg
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-test-rg
+                ${{ if eq(parameter.environment, 'ithc') }}:
+                  initCommandOptions:
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                ${{ if eq(parameter.environment, 'prod') }}:
+                  initCommandOptions:
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
