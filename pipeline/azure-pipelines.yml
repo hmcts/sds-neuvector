@@ -104,6 +104,7 @@ stages:
             - template: steps/terraform.yaml@cnp-azuredevops-libraries
               parameters:
                 environment: ${{ parameter.environment }}
+                tfVarsFile: NULL
                 kvConnectedServiceName: ${{ parameters.kvConnectedServiceName }}
                 overrideAction: ${{ parameters.overrideAction }}
                 component: "sds-neuvector"
