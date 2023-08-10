@@ -1,4 +1,4 @@
-variable "env" {}
+variable "environment" {}
 
 variable "product" {
   default = "neuvector"
