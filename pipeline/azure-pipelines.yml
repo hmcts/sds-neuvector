@@ -106,7 +106,7 @@ stages:
                 environment: ${{ parameter.environment }}
                 kvConnectedServiceName: ${{ parameters.kvConnectedServiceName }}
                 overrideAction: ${{ parameters.overrideAction }}
-                component: ${{ variables.project }}
+                component: "sds-neuvector"
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
                 terraformInitSubscription: ${{ variables.terraformInitSubscription }} 
                 product: ${{ variables.product }}
