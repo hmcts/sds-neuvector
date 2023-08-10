@@ -119,7 +119,7 @@ stages:
                   initCommandOptions: -backend-config=resource_group_name=azure-control-test-rg
                   planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
                   destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-test-rg
-                  ${{ if eq(parameter.environment, 'dev') }}:
+                ${{ if eq(parameter.environment, 'dev') }}:
                   initCommandOptions: -backend-config=resource_group_name=azure-control-dev-rg
                   planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
                   destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-dev-rg
