@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 0.14.5"
+  required_version = "~> 1.5.0"
   backend "azurerm" {
     subscription_id = "04d27a32-7a07-48b3-95b8-3c8691e1a263"
   }
@@ -10,7 +10,7 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "2.39.0"
+      version = "2.40.0"
     }
   }
 }

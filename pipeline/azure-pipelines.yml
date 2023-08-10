@@ -9,6 +9,17 @@ trigger:
     include:
     - master
 
+resources:
+  repositories:
+  - repository: cnp-azuredevops-libraries
+    type: github
+    ref: refs/heads/master
+    name: hmcts/cnp-azuredevops-libraries
+    endpoint: 'hmcts'
+
+pool:
+  vmImage: "ubuntu-latest"
+
 variables:
   terraformVersion: 0.14.5
   timeoutInMinutes: 60
@@ -17,10 +28,24 @@ variables:
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   connectedServiceName: DCD-CFT-Sandbox
   keyVaultName: infra-vault-sandbox
-  secretsFilter: azure-devops-token
   project: application
+  product: neuvector
+  terraformInitSubscription: 04d27a32-7a07-48b3-95b8-3c8691e1a263
+  template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 parameters:
+  - name: overrideAction
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+
+  - name: kvConnectedServiceName
+    type: string
+    default: DCD-CFT-Sandbox
+      
   - name: environments
     displayName: Environment to run
     type: object
@@ -28,18 +53,23 @@ parameters:
       - deployment: 'neuvector'
         environment: 'stg'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'test'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'dev'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'ithc'
         dependsOn: 'Precheck'
+        component: sds-neuvector
       - deployment: 'neuvector'
         environment: 'prod'
         dependsOn: 'Precheck'
+        component: sds-neuvector
 
   - name: location
     displayName: Location
@@ -52,14 +82,15 @@ parameters:
 stages:
   - stage: Precheck
     jobs:
-      - template: templates/precheck/precheck.yaml
-        parameters:
-          agentPool: ${{ variables.agentPool }}
-          timeoutInMinutes: ${{ variables.timeoutInMinutes}}
-          terraformVersion: ${{ variables.terraformVersion}}
-          connectedServiceName: ${{ variables.connectedServiceName }}
-          keyVaultName: ${{ variables.keyVaultName }}
-          secretsFilter: ${{ variables.secretsFilter }}
+      - job:
+        timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+        steps:
+          - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+            parameters:
+              keyvaultName: "infra-vault-sandbox"
+              keyvaultSecret: "azure-devops-sp-token"
+              serviceConnection: "DCD-CFT-Sandbox"
+              overrideAction: ${{ parameters.overrideAction }}
 
   - ${{ each parameter in parameters.environments }}:
     - stage: ${{ parameter.environment }}
@@ -70,11 +101,33 @@ stages:
           pool:
             vmImage: ${{ variables.agentPool }}
           steps:
-            - template: templates/terraform/terraform.yaml
+            - template: steps/terraform.yaml@cnp-azuredevops-libraries
               parameters:
                 environment: ${{ parameter.environment }}
-                location: ${{ parameters.location }}
-                stack: ${{ parameter.deployment }}
-                project: ${{ variables.project }}
-                tfversion: ${{ variables.terraformVersion}}
+                tfVarsFile: NULL
+                kvConnectedServiceName: ${{ parameters.kvConnectedServiceName }}
+                overrideAction: ${{ parameters.overrideAction }}
+                component: "sds-neuvector"
                 serviceConnection: "OPS-APPROVAL-GATE-${{ upper(parameter.environment) }}-ENVS"
+                terraformInitSubscription: ${{ variables.terraformInitSubscription }} 
+                product: ${{ variables.product }}
+                ${{ if eq(parameter.environment, 'stg') }}:
+                  initCommandOptions: -backend-config=resource_group_name=azure-control-stg-rg
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-stg-rg
+                ${{ if eq(parameter.environment, 'test') }}:
+                  initCommandOptions: -backend-config=resource_group_name=azure-control-test-rg
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-test-rg
+                ${{ if eq(parameter.environment, 'dev') }}:
+                  initCommandOptions: -backend-config=resource_group_name=azure-control-dev-rg
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector -backend-config resource_group_name=azure-control-dev-rg
+                ${{ if eq(parameter.environment, 'ithc') }}:
+                  initCommandOptions:
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                ${{ if eq(parameter.environment, 'prod') }}:
+                  initCommandOptions:
+                  planCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
+                  destroyCommandOptions: ${{ variables.globalTfCommandOptions }} -var activity_name=neuvector
