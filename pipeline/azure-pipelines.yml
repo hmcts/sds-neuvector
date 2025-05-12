@@ -23,7 +23,7 @@ pool:
 variables:
   terraformVersion: 0.14.5
   timeoutInMinutes: 60
-  agentPool: 'ubuntu-20.04'
+  agentPool: 'ubuntu-latest'
   build: $(Build.BuildNumber)
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   connectedServiceName: DCD-CFT-Sandbox
