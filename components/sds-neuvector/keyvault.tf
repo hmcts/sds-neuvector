@@ -1,5 +1,5 @@
 module "azurekeyvault" {
-  source                  = "git::https://github.com/hmcts/cnp-module-key-vault?ref=master"
+  source                  = "git::https://github.com/hmcts/cnp-module-key-vault?ref=fixing-module-dtspo-33444"
   name                    = "sds${var.product}-${var.env}"
   product                 = var.product
   env                     = var.env
